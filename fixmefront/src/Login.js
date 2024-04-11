@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('/api/login', { username, password });
-      // Handle successful login (e.g., redirect to dashboard)
+      // Handle successful login
       console.log('Login successful', response.data);
+      // Redirect to dashboard
+      history.push('/dashboard');
     } catch (error) {
       // Handle login error
       setError('Invalid username or password');

@@ -1,11 +1,16 @@
 import React from 'react';
-import Login from '../src/Login'; // Assuming Login component is in a file named Login.js in the same directory
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './Login';
+import Dashboard from './Dashboard';
 
 function App() {
   return (
-    <div>
-      <Login />
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact component={Login} />
+        <Route path="/dashboard" component={Dashboard} />
+      </Switch>
+    </Router>
   );
 }
 
