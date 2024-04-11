@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '../Login'; // Assuming Login component is in a file named Login.js in the same directory
+import Login from '../src/Login'; // Assuming Login component is in a file named Login.js in the same directory
 
 function App() {
   return (
