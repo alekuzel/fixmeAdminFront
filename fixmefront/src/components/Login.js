@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate(); // Use useNavigate hook instead of useHistory
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/login', { username, password });
+      const response = await axios.post('http://localhost:3006/admin/login', { username, password });
       // Handle successful login
       console.log('Login successful', response.data);
       // Redirect to dashboard
-      history.push('/dashboard');
+      navigate('/dashboard'); // Use navigate function to navigate to '/dashboard'
     } catch (error) {
       // Handle login error
       setError('Invalid username or password');
