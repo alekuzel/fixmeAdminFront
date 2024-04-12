@@ -23,7 +23,7 @@ const RegistrationForm = () => {
     formData.append('lastName', lastName);
     formData.append('phoneNumber', phoneNumber);
     formData.append('email', email);
-    formData.append('twoFactorEnabled', twoFactorEnabled);
+    formData.append('twoFactorEnabled', twoFactorEnabled ? 1 : 0);
     formData.append('image', image);
 
     try {
@@ -99,3 +99,7 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
+
+//manage image uploads
+//display admin info
+//some finer design with bootstrap
