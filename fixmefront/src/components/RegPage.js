@@ -10,7 +10,6 @@ const RegistrationForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [twoFactorEnabled, setTwoFactorAuth] = useState(false);
-  const [image, setImage] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -24,7 +23,7 @@ const RegistrationForm = () => {
     formData.append('phoneNumber', phoneNumber);
     formData.append('email', email);
     formData.append('twoFactorEnabled', twoFactorEnabled ? 1 : 0);
-    formData.append('image', image);
+  
 
     try {
       const response = await axios.post('http://localhost:3006/admins/register', formData);
@@ -34,9 +33,7 @@ const RegistrationForm = () => {
     }
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
+
 
   return (
     <div className="container">
@@ -87,10 +84,7 @@ const RegistrationForm = () => {
           <label htmlFor="twoFactorEnabled">Two Factor Authentication Enabled:</label>
           <input type="checkbox" id="twoFactorEnabled" checked={twoFactorEnabled} onChange={(e) => setTwoFactorAuth(e.target.checked)} />
         </div>
-        <div className="form-group">
-          <label htmlFor="image">Image:</label>
-          <input type="file" id="image" onChange={handleImageChange} />
-        </div>
+       
         <button type="submit" className="btn btn-primary">Register</button>
         {error && <p className="text-danger">{error}</p>}
       </form>
