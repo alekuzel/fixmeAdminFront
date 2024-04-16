@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // No
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import RegPage from './components/RegPage';
+import ConfirmRegistration from './components/Confirm';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Login />} /> {/* Use element prop instead of component */}
         <Route path="/dashboard" element={<Dashboard />} /> {/* Use element prop instead of component */}
         <Route path="/register" element={<RegPage />} /> {/* Use element prop instead of component */}
+        <Route path="/confirm" element={<ConfirmRegistration />} /> {/* Use element prop instead of component */}
       </Routes>
     </Router>
   );

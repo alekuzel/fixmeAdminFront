@@ -11,6 +11,7 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState('');
   const [twoFactorEnabled, setTwoFactorAuth] = useState(false);
   const [error, setError] = useState('');
+  const [registrationCompleted, setRegistrationCompleted] = useState(false); // Track registration completion
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -24,17 +25,32 @@ const RegistrationForm = () => {
     formData.append('email', email);
     formData.append('twoFactorEnabled', twoFactorEnabled ? 1 : 0);
   
-
     try {
       const response = await axios.post('http://localhost:3006/admins/register', formData);
-      navigate('/');
+      // Assume the server responds with a success message upon registration
+      setRegistrationCompleted(true); // Set registration completion state to true
     } catch (error) {
       setError('Failed to register. Please try again.');
     }
   };
 
+  const handleConfirmation = () => {
+    // Handle confirmation action, e.g., redirect to login page
+    navigate('/login'); // Example redirect to login page after confirmation
+  };
 
+  // If registration is completed, show confirmation message
+  if (registrationCompleted) {
+    return (
+      <div className="container">
+        <h2>Registration Successful</h2>
+        <p>Please check your email for confirmation.</p>
+        <button onClick={handleConfirmation} className="btn btn-primary">Go to Login</button>
+      </div>
+    );
+  }
 
+  // Otherwise, show registration form
   return (
     <div className="container">
       <h2>Admin Registration</h2>

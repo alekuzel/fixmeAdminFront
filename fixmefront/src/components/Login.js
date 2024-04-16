@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
 
 function Login() {
-  const [identifier, setIdentifier] = useState(''); // Changed from username to identifier
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Use useNavigate hook instead of useHistory
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3006/admin/login', { identifier, password }); // Changed from username to identifier
+      const response = await axios.post('http://localhost:3006/admin/login', { username, password });
+      // Handle successful login
       console.log('Login successful', response.data);
-      navigate('/dashboard');
+      // Redirect to dashboard
+      navigate('/dashboard'); // Use navigate function to navigate to '/dashboard'
     } catch (error) {
-      setError('Invalid username/email or password'); // Updated error message
+      // Handle login error
+      setError('Invalid username or password');
     }
   };
 
@@ -24,13 +27,13 @@ function Login() {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="identifier">Username/Email:</label> {/* Changed from Username to Username/Email */}
+          <label htmlFor="username">Username:</label>
           <input
             type="text"
             className="form-control"
-            id="identifier" // Changed from username to identifier
-            value={identifier} // Changed from username to identifier
-            onChange={(e) => setIdentifier(e.target.value)} // Changed from setUsername to setIdentifier
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="form-group">
@@ -51,5 +54,3 @@ function Login() {
 }
 
 export default Login;
-
-//    start with email and phone confirmation!!!
