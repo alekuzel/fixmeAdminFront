@@ -7,6 +7,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Use useNavigate hook instead of useHistory
+  const [adminInfo, setAdminInfo] = useState(null); // State to store admin info
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,8 +15,16 @@ function Login() {
       const response = await axios.post('http://localhost:3006/admin/login', { username, password });
       // Handle successful login
       console.log('Login successful', response.data);
+      // Extract admin ID and token from response data and set them in state
+      const id = response.data.admin.id;
+      console.log('response', id );
+      setAdminInfo({ id});
+      // Store the token in local storage for future requests
+    
+    
+      localStorage.setItem('id', id);
       // Redirect to dashboard
-      navigate('/dashboard'); // Use navigate function to navigate to '/dashboard'
+      navigate(`/dashboard`);
     } catch (error) {
       // Handle login error
       setError('Invalid username or password');
@@ -54,3 +63,10 @@ function Login() {
 }
 
 export default Login;
+
+
+//image upload
+//logout
+//navigation to all pages
+//footer
+//header

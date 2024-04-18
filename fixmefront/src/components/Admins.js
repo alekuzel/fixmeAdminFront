@@ -4,24 +4,24 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const SupportPage = () => {
-  const [supportAdmins, setSupportAdmins] = useState([]);
+  const [admins, setAdmins] = useState([]);
 
   useEffect(() => {
-    const fetchSupportAdmins = async () => {
+    const fetchAdmins = async () => {
       try {
         const response = await axios.get('http://localhost:3006/admins/admins');
-        setSupportAdmins(response.data);
+        setAdmins(response.data);
       } catch (error) {
         console.error('Error fetching admins:', error);
       }
     };
 
-    fetchSupportAdmins();
+    fetchAdmins();
   }, []);
 
   return (
     <div className="container">
-      <h2>Support Admins</h2>
+      <h2>Admins</h2>
       <div className="table-responsive">
         <table className="table table-striped table-hover">
           <thead className="thead-dark">
@@ -39,7 +39,7 @@ const SupportPage = () => {
             </tr>
           </thead>
           <tbody>
-            {supportAdmins.map((admins, index) => (
+            {admins.map((admins, index) => (
               <tr key={admins.id}>
                 <td>{index + 1}</td>
                 <td>{admins.firstName}</td>

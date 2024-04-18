@@ -23,6 +23,9 @@ function Dashboard() {
             <li className="nav-item">
               <Link to="/register" className={`nav-link ${location.pathname === '/register' ? 'active' : ''}`}>Registration</Link>
             </li>
+            <li className="nav-item">
+              <Link to="/profile" className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>Profile</Link>
+            </li>
           </ul>
         </div>
         <div className="col-lg-10">

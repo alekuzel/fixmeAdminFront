@@ -6,6 +6,7 @@ import RegPage from './components/RegPage';
 import ConfirmRegistration from './components/Confirm';
 import SupportPage from './components/Support';
 import Admins from './components/Admins';
+import ProfilePage from './components/ProfilePage';
 function App() {
   return (
     <Router>
@@ -16,6 +17,7 @@ function App() {
         <Route path="/support" element={<SupportPage />} /> {/* Use element prop instead of component */}
         <Route path="/admins" element={<Admins />} /> {/* Use element prop instead of component */}
         <Route path="/confirm" element={<ConfirmRegistration />} /> {/* Use element prop instead of component */}
+        <Route path="/profile" element={<ProfilePage />} /> {/* Use element prop instead of component */}
       </Routes>
     </Router>
   );
