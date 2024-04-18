@@ -1,0 +1,10 @@
+/* Dashboard.css */
+
+/* Add a custom style for the active link */
+.nav-link.active {
+    background-color: #343a40; /* Dark grey background color */
+  }
+  
+  .nav-item {
+    color: #fff; /* White text color */
+  }
