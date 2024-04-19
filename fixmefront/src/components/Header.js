@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const loggedIn = localStorage.getItem('id');
 
   const handleLogout = () => {
     // Clear user data from local storage
@@ -19,13 +21,17 @@ const Header = () => {
             <h1>Fixmeapp</h1>
           </Link>
         </div>
-        <div className="col-md-8 d-flex justify-content-end">
-          <Link to="/news" className="text-white text-decoration-none mx-3">News</Link>
-          <Link to="/stats" className="text-white text-decoration-none mx-3">Stats</Link>
-          <Link to="/activities" className="text-white text-decoration-none mx-3">Activities</Link>
-        </div>
+        {loggedIn ? (
+          <div className="col-md-8 d-flex justify-content-end">
+            <Link to="/news" className={`text-white text-decoration-none mx-3 ${location.pathname === '/news' ? 'active' : ''}`}>News</Link>
+            <Link to="/stats" className={`text-white text-decoration-none mx-3 ${location.pathname === '/stats' ? 'active' : ''}`}>Stats</Link>
+            <Link to="/activities" className={`text-white text-decoration-none mx-3 ${location.pathname === '/activities' ? 'active' : ''}`}>Activities</Link>
+          </div>
+        ) : null}
         <div className="col-md-2 d-flex justify-content-end">
-          <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+          {loggedIn ? (
+            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+          ) : null}
         </div>
       </div>
     </header>
