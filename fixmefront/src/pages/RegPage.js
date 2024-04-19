@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import NavigationComp from '../components/NavigationComp'; // Import NavigationComp
 
 const RegistrationForm = () => {
   const [password, setPassword] = useState('');
@@ -42,21 +43,31 @@ const RegistrationForm = () => {
   // If registration is completed, show confirmation message
   if (registrationCompleted) {
     return (
-      <div className="container">
-        <h2>Registration Successful</h2>
-        <p>Please check your email for confirmation.</p>
-        <button onClick={handleConfirmation} className="btn btn-primary">Go to Login</button>
+      <div className="container-fluid">
+        <div className="row">
+          <NavigationComp /> {/* Include NavigationComp here */}
+          <div className="col-lg-10">
+            <div className="container">
+              <h2>Registration Successful</h2>
+              <p>Please check your email for confirmation.</p>
+              <button onClick={handleConfirmation} className="btn btn-primary">Go to Login</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   // Otherwise, show registration form
   return (
-    <div className="container">
-      <h2>Admin Registration</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Existing form fields... */}
-        <div className="form-group">
+    <div className="container-fluid">
+      <div className="row">
+        <NavigationComp /> {/* Include NavigationComp here */}
+        <div className="col-lg-10">
+          <div className="container">
+            <h2>Admin Registration</h2>
+            <form onSubmit={handleSubmit}>
+            <div className="form-group">
           <label htmlFor="firstName">Name:</label>
           <input type="text" className="form-control" id="firstName" value={firstName} onChange={(e) => setName(e.target.value)} />
         </div>
@@ -103,13 +114,15 @@ const RegistrationForm = () => {
        
         <button type="submit" className="btn btn-primary">Register</button>
         {error && <p className="text-danger">{error}</p>}
-      </form>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default RegistrationForm;
 
-//manage image uploads
-//display admin info
-//some finer design with bootstrap
+
+

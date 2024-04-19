@@ -1,9 +1,8 @@
-//Admin.js REWRITE
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import NavigationComp from '../components/NavigationComp'; // Import NavigationComp
 
-const SupportPage = () => {
+const Admin = () => {
   const [admins, setAdmins] = useState([]);
 
   useEffect(() => {
@@ -20,25 +19,29 @@ const SupportPage = () => {
   }, []);
 
   return (
-    <div className="container">
-      <h2>Admins</h2>
-      <div className="table-responsive">
-        <table className="table table-striped table-hover">
-          <thead className="thead-dark">
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Image</th>
-              <th>Phone Number</th>
-              <th>Role</th>
-              <th>Username</th>
-              <th>Last Login</th>
-              <th>Last Login IP</th>
-            </tr>
-          </thead>
-          <tbody>
+    <div className="container-fluid">
+      <div className="row">
+        <NavigationComp /> {/* Include NavigationComp here */}
+        <div className="col-lg-10">
+          <div className="container">
+            <h2>Admins</h2>
+            <div className="table-responsive">
+              <table className="table table-striped table-hover">
+                <thead className="thead-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Image</th>
+                    <th>Phone Number</th>
+                    <th>Role</th>
+                    <th>Username</th>
+                    <th>Last Login</th>
+                    <th>Last Login IP</th>
+                  </tr>
+                </thead>
+                <tbody>
             {admins.map((admins, index) => (
               <tr key={admins.id}>
                 <td>{index + 1}</td>
@@ -56,10 +59,13 @@ const SupportPage = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default SupportPage;
+export default Admin;

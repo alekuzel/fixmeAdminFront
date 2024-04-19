@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Note the change in import
-import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import RegPage from './components/RegPage';
-import ConfirmRegistration from './components/Confirm';
-import SupportPage from './components/Support';
-import Admins from './components/Admins';
-import ProfilePage from './components/ProfilePage';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import RegPage from './pages/RegPage';
+import ConfirmRegistration from './pages/Confirm';
+import SupportPage from './pages/Support';
+import Admins from './pages/Admins';
+import ProfilePage from './pages/ProfilePage';
+import UsersPage from './pages/Users';
 function App() {
   return (
     <Router>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/admins" element={<Admins />} /> {/* Use element prop instead of component */}
         <Route path="/confirm" element={<ConfirmRegistration />} /> {/* Use element prop instead of component */}
         <Route path="/profile" element={<ProfilePage />} /> {/* Use element prop instead of component */}
+        <Route path="/users" element={<UsersPage />} /> {/* Use element prop instead of component */}
       </Routes>
     </Router>
   );
