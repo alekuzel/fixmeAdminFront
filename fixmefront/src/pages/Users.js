@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavigationComp from '../components/NavigationComp';
+import Header from '../components/Header';
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -19,7 +20,9 @@ const UsersPage = () => {
   }, []);
 
   return (
-    <div className="container-fluid">
+    <div>
+      <Header />
+      <div className="container-fluid">
       <div className="row">
         <NavigationComp />
         <div className="col-lg-10">
@@ -52,6 +55,7 @@ const UsersPage = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

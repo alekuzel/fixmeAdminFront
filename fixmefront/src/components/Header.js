@@ -17,7 +17,7 @@ const Header = () => {
     <header className="container-fluid bg-dark text-white py-3">
       <div className="row align-items-center">
         <div className="col-md-2">
-          <Link to="/dashboard" className="text-white text-decoration-none">
+          <Link to="/" className="text-white text-decoration-none">
             <h1>Fixmeapp</h1>
           </Link>
         </div>

@@ -24,7 +24,7 @@ function Login() {
     
       localStorage.setItem('id', id);
       // Redirect to dashboard
-      navigate(`/dashboard`);
+      navigate(`/`);
     } catch (error) {
       // Handle login error
       setError('Invalid username or password');

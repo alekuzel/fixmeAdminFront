@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavigationComp from '../components/NavigationComp'; // Import NavigationComp
+import Header from '../components/Header';
 
 function ProfilePage() {
   const [adminData, setAdminData] = useState(null);
@@ -22,6 +23,9 @@ function ProfilePage() {
   }, [loggedInUserId]);
 
   return (
+    <div>
+      <Header /> {/* Include Header component here */}
+  
     <div className="container-fluid">
       <div className="row">
         <NavigationComp /> {/* Include NavigationComp here */}
@@ -41,6 +45,7 @@ function ProfilePage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavigationComp from '../components/NavigationComp'; // Import NavigationComp
+import Header from '../components/Header';
 
 const SupportPage = () => {
   const [supportAdmins, setSupportAdmins] = useState([]);
@@ -19,6 +20,9 @@ const SupportPage = () => {
   }, []);
 
   return (
+    <div>
+      <Header /> {/* Include Header component here */}
+   
     <div className="container-fluid">
       <div className="row">
         <NavigationComp /> {/* Include NavigationComp here */}
@@ -65,6 +69,7 @@ const SupportPage = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 

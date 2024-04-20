@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavigationComp from '../components/NavigationComp'; // Import NavigationComp
+import Header from '../components/Header';
 
 const RegistrationForm = () => {
   const [password, setPassword] = useState('');
@@ -60,6 +61,7 @@ const RegistrationForm = () => {
 
   // Otherwise, show registration form
   return (
+    <div> <Header /> {/* Include Header component here */}
     <div className="container-fluid">
       <div className="row">
         <NavigationComp /> {/* Include NavigationComp here */}
@@ -118,6 +120,7 @@ const RegistrationForm = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
