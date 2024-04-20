@@ -45,20 +45,25 @@ const Admin = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {admins.map((admins, index) => (
-                      <tr key={admins.id}>
+                    {admins.map((admin, index) => (
+                      <tr key={admin.id}>
                         <td>{index + 1}</td>
-                        <td>{admins.firstName}</td>
-                        <td>{admins.lastName}</td>
-                        <td>{admins.email}</td>
+                        <td>{admin.firstName}</td>
+                        <td>{admin.lastName}</td>
+                        <td>{admin.email}</td>
                         <td>
-                          <img src={admins.image} alt="Admin" className="img-fluid rounded-circle" style={{ maxWidth: '50px' }} />
+                          <img 
+                            src={admin.image || '/images/default-avatar.png'} 
+                            alt="Admin" 
+                            className="img-fluid rounded-circle" 
+                            style={{ maxWidth: '50px' }} 
+                          />
                         </td>
-                        <td>{admins.phoneNumber}</td>
-                        <td>{admins.role}</td>
-                        <td>{admins.username}</td>
-                        <td>{admins.lastLogin}</td>
-                        <td>{admins.lastLoginip}</td>
+                        <td>{admin.phoneNumber}</td>
+                        <td>{admin.role}</td>
+                        <td>{admin.username}</td>
+                        <td>{admin.lastLogin}</td>
+                        <td>{admin.lastLoginIP}</td>
                       </tr>
                     ))}
                   </tbody>

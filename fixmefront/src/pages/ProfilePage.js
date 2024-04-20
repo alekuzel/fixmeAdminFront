@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavigationComp from '../components/NavigationComp'; // Import NavigationComp
+import NavigationComp from '../components/NavigationComp';
 import Header from '../components/Header';
 
 function ProfilePage() {
   const [adminData, setAdminData] = useState(null);
-  const loggedInUserId = localStorage.getItem('id'); // Retrieve the logged-in user's ID from local storage
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const loggedInUserId = localStorage.getItem('id');
 
   useEffect(() => {
     const fetchAdminData = async () => {
@@ -22,30 +24,61 @@ function ProfilePage() {
     }
   }, [loggedInUserId]);
 
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    const formData = new FormData();
+    formData.append('image', image);  // Match the key expected by the backend
+    setUploading(true);
+
+    try {
+      const response = await axios.post(`http://localhost:3006/admins/${loggedInUserId}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setUploading(false);
+      alert('Image uploaded successfully');
+      setAdminData({...adminData, avatarUrl: response.data.admin.image});  // Update adminData to reflect new image path
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Failed to upload image');
+      setUploading(false);
+    }
+  };
+
   return (
     <div>
-      <Header /> {/* Include Header component here */}
-  
-    <div className="container-fluid">
-      <div className="row">
-        <NavigationComp /> {/* Include NavigationComp here */}
-        <div className="col-lg-10">
-          <div className="container">
-            <h2>Profile Page</h2>
-            {adminData ? (
-              <div>
-                <p>ID: {adminData.id}</p>
-                <p>Username: {adminData.username}</p>
-                <p>Role: {adminData.role}</p>
-                {/* Add more fields as needed */}
-              </div>
-            ) : (
-              <p>Loading...</p>
-            )}
+      <Header />
+      <div className="container-fluid">
+        <div className="row">
+          <NavigationComp />
+          <div className="col-lg-10">
+            <div className="container">
+              <h2>Profile Page</h2>
+              {adminData ? (
+                <div>
+                  <p>ID: {adminData.id}</p>
+                  <p>Name: {adminData.firstName} {adminData.lastName}</p>
+                  <p>Email: {adminData.email}</p>
+                  <p>Phone: {adminData.phone}</p>
+                  <p>Username: {adminData.username}</p>
+                  <p>Role: {adminData.role}</p>
+                  <div>
+                    <img src={adminData.avatarUrl || '/images/default-avatar.png'} alt="Avatar" style={{ width: 50, height: 50 }} />
+                    <input type="file" onChange={handleImageChange} />
+                    <button onClick={handleUpload} disabled={uploading}>{uploading ? 'Uploading...' : 'Upload'}</button>
+                  </div>
+                </div>
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
