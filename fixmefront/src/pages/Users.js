@@ -20,13 +20,12 @@ const UsersPage = () => {
   }, []);
 
   return (
-    <div>
-      <Header />
-      <div className="container-fluid">
+    <div className="container-fluid">
       <div className="row">
-        <NavigationComp />
-        <div className="col-lg-10">
-          <div className="container">
+        <NavigationComp /> {/* This should have a class like col-lg-2 if it's defined in NavigationComp */}
+        <div className="col-lg-10"> {/* This wraps Header and main content */}
+          <Header />
+          <div className="container mt-4">
             <h2>Users</h2>
             <div className="table-responsive">
               <table className="table table-striped table-hover">
@@ -55,7 +54,6 @@ const UsersPage = () => {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
