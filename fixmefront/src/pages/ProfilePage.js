@@ -50,13 +50,12 @@ function ProfilePage() {
   };
 
   return (
-    <div>
-      <Header />
-      <div className="container-fluid">
-        <div className="row">
-          <NavigationComp />
-          <div className="col-lg-10">
-            <div className="container">
+    <div className="container-fluid">
+    <div className="row">
+      <NavigationComp /> {/* This should have a class like col-lg-2 if it's defined in NavigationComp */}
+      <div className="col-lg-10"> {/* This wraps Header and main content */}
+        <Header />
+        <div className="container mt-4">
               <h2>Profile Page</h2>
               {adminData ? (
                 <div>
@@ -79,7 +78,7 @@ function ProfilePage() {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 }
 

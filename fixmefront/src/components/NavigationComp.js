@@ -19,16 +19,21 @@ function NavigationComp() {
     border: 'none'
   };
 
+  const containerStyle = {
+    zIndex: 3,
+    position: 'relative' // Required for z-index to take effect
+  };
+
   return (
-    <div className="col-lg-2 bg-dark text-white vh-100">
+    <div className="col-lg-2 bg-dark text-white vh-100" style={containerStyle}>
       <div className="text-center text-md-left">
         <Link to="/" className="text-white text-decoration-none">
-          <h1><i className="fa fa-home" style={{color: '#f0db4f'}}></i> Fixmeapp</h1>
+          <h1>Fixmeapp</h1>
         </Link>
       </div>
       <ul className="nav flex-column">
         <li className="nav-item">
-          <Link to="/dashboard" className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
+          <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
             <i className="fa fa-tachometer-alt" style={{color: '#4CAF50'}}></i> Dashboard
           </Link>
         </li>

@@ -61,12 +61,12 @@ const RegistrationForm = () => {
 
   // Otherwise, show registration form
   return (
-    <div> <Header /> {/* Include Header component here */}
     <div className="container-fluid">
-      <div className="row">
-        <NavigationComp /> {/* Include NavigationComp here */}
-        <div className="col-lg-10">
-          <div className="container">
+    <div className="row">
+      <NavigationComp /> {/* This should have a class like col-lg-2 if it's defined in NavigationComp */}
+      <div className="col-lg-10"> {/* This wraps Header and main content */}
+        <Header />
+        <div className="container mt-4">
             <h2>Admin Registration</h2>
             <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -121,7 +121,7 @@ const RegistrationForm = () => {
         </div>
       </div>
     </div>
-    </div>
+    
   );
 };
 

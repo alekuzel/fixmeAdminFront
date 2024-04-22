@@ -1,34 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavigationComp from '../components/NavigationComp'; // Import NavigationComp
+import NavigationComp from '../components/NavigationComp';
 import Header from '../components/Header';
 
-const SupportPage = () => {
-  const [supportAdmins, setSupportAdmins] = useState([]);
+const SupportUserPage = () => {
+  const [supportUsers, setSupportUsers] = useState([]);
 
   useEffect(() => {
-    const fetchSupportAdmins = async () => {
+    const fetchSupportUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3006/admins/support');
-        setSupportAdmins(response.data);
+        const response = await axios.get('http://localhost:3006/users/support');
+        setSupportUsers(response.data);
       } catch (error) {
-        console.error('Error fetching support admins:', error);
+        console.error('Error fetching support users:', error);
       }
     };
 
-    fetchSupportAdmins();
+    fetchSupportUsers();
   }, []);
 
   return (
-    <div>
-      <Header /> {/* Include Header component here */}
-   
     <div className="container-fluid">
       <div className="row">
-        <NavigationComp /> {/* Include NavigationComp here */}
+        <NavigationComp />
         <div className="col-lg-10">
-          <div className="container">
-            <h2>Support Admins</h2>
+          <Header />
+          <div className="container mt-4">
+            <h2>Support Users</h2>
             <div className="table-responsive">
               <table className="table table-striped table-hover">
                 <thead className="thead-dark">
@@ -46,25 +44,25 @@ const SupportPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {supportAdmins.map((admin, index) => (
-                    <tr key={admin.id}>
+                  {supportUsers.map((user, index) => (
+                    <tr key={user.id}>
                       <td>{index + 1}</td>
-                      <td>{admin.firstName}</td>
-                      <td>{admin.lastName}</td>
-                      <td>{admin.email}</td>
+                      <td>{user.firstName}</td>
+                      <td>{user.lastName}</td>
+                      <td>{user.email}</td>
                       <td>
                         <img 
-                          src={admin.image || '/images/default-avatar.png'} 
-                          alt="Support Admin" 
+                          src={user.image || '/images/default-avatar.png'} 
+                          alt="Support User" 
                           className="img-fluid rounded-circle" 
                           style={{ maxWidth: '50px' }}
                         />
                       </td>
-                      <td>{admin.phoneNumber}</td>
-                      <td>{admin.role}</td>
-                      <td>{admin.username}</td>
-                      <td>{admin.lastLogin}</td>
-                      <td>{admin.lastLoginIP}</td>
+                      <td>{user.phoneNumber}</td>
+                      <td>{user.role}</td>
+                      <td>{user.username}</td>
+                      <td>{user.lastLogin}</td>
+                      <td>{user.lastLoginIP}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -74,8 +72,7 @@ const SupportPage = () => {
         </div>
       </div>
     </div>
-  </div>
   );
 };
 
-export default SupportPage;
+export default SupportUserPage;

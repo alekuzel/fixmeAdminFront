@@ -1,0 +1,32 @@
+/* App.css or a relevant CSS file */
+.app-container {
+    display: flex;
+    height: 100vh; /* Ensure the container takes up full viewport height */
+  }
+
+  main{
+
+    margin-top: 50px;
+    margin-left: 320px;
+  }
+
+  
+  .nav-container {
+    width: 300px; /* Fixed width for the navigation */
+    height: 100%; /* Full height */
+    position: fixed; /* Fixed position */
+    z-index: 2; /* Higher z-index so it overlays the header */
+    background-color: #333; /* Background color for visibility */
+  }
+  
+  .header-container {
+    margin-left: 300px; /* Offset by the width of the navigation */
+    width: calc(100% - 300px); /* Take remaining width */
+    z-index: 1; /* Lower z-index to be "under" navigation */
+    position: relative; /* Needed for z-index to take effect */
+  }
+  
+  .header-content {
+    /* Additional styling for your header content */
+  }
+  

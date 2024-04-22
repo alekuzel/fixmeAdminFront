@@ -3,7 +3,7 @@ import axios from 'axios';
 import NavigationComp from '../components/NavigationComp';
 import Header from '../components/Header';
 
-const UsersPage = () => {
+const User = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -22,34 +22,32 @@ const UsersPage = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <NavigationComp /> {/* This should have a class like col-lg-2 if it's defined in NavigationComp */}
-        <div className="col-lg-10"> {/* This wraps Header and main content */}
+        <NavigationComp />
+        <div className="col-lg-10">
           <Header />
           <div className="container mt-4">
             <h2>Users</h2>
-            <div className="table-responsive">
-              <table className="table table-striped table-hover">
-                <thead className="thead-dark">
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    {/* Add more fields as needed */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user, index) => (
-                    <tr key={user.id}>
-                      <td>{index + 1}</td>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.phone}</td>
-                      {/* Add more fields as needed */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="row">
+              {users.map((user, index) => (
+                <div className="col-md-4" key={user.id}>
+                  <div className="card mb-4">
+                    <img 
+                      src={user.image || '/images/default-avatar.png'} 
+                      alt="User" 
+                      className="card-img-top" 
+                      style={{ maxWidth: '100px', height: 'auto' }} 
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title">{user.firstName} {user.lastName}</h5>
+                      <p className="card-text">{user.email}</p>
+                      <p className="card-text">{user.phoneNumber}</p>
+                      <p className="card-text">{user.role}</p>
+                      <p className="card-text">{user.username}</p>
+              
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -58,4 +56,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default User;
