@@ -67,3 +67,10 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+//status in different colors, make admin, support data editable. 
+//fix image uploads!
+//fix differences in what admin, support and superadmin may see
+//news table, CRUD and page just for fun. admins may post, supports only read
+//functionality to change password
+//filter by status and by something else
