@@ -62,6 +62,11 @@ function NavigationComp() {
             <i className="fa fa-id-card" style={{color: '#3498DB'}}></i> Profile
           </Link>
         </li>
+        <li className="nav-item">
+          <Link to="/security" className={`nav-link ${location.pathname === '/security' ? 'active' : ''}`}>
+            <i className="fa fa-shield-alt" style={{color: '#FFD700'}}></i> Security
+          </Link>
+        </li>
         {loggedIn && (
           <li className="nav-item">
             <button 

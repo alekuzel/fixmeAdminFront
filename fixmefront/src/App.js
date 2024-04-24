@@ -9,6 +9,7 @@ import SupportPage from './pages/Support';
 import Admins from './pages/Admins';
 import ProfilePage from './pages/ProfilePage';
 import UsersPage from './pages/Users';
+import SecurityPage from './pages/SecurityPape';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
   <Route path="/admins" element={<ProtectedRoute><Admins /></ProtectedRoute>} />
   <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
   <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
+  <Route path="/security" element={<ProtectedRoute><SecurityPage /></ProtectedRoute>} />
 </Routes>
     </Router>
   );

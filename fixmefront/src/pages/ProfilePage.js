@@ -62,7 +62,7 @@ function ProfilePage() {
                   <p>ID: {adminData.id}</p>
                   <p>Name: {adminData.firstName} {adminData.lastName}</p>
                   <p>Email: {adminData.email}</p>
-                  <p>Phone: {adminData.phone}</p>
+                  <p>Phone: {adminData.phoneNumber}</p>
                   <p>Username: {adminData.username}</p>
                   <p>Role: {adminData.role}</p>
                   <div>
