@@ -9,7 +9,7 @@ import SupportPage from './pages/Support';
 import Admins from './pages/Admins';
 import ProfilePage from './pages/ProfilePage';
 import UsersPage from './pages/Users';
-import SecurityPage from './pages/SecurityPape';
+import SecurityPage from './pages/SecurityPage';
 
 function App() {
   return (
