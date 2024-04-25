@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'; // Import useLocation instead of useParams
 import axios from 'axios';
 
 const ConfirmRegistration = () => {
-  const { token } = useParams(); // Extract token from URL params
+  // Replace useParams with useLocation and URLSearchParams
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const token = query.get('token');
+
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [username, setUsername] = useState('');
 
@@ -15,6 +19,7 @@ const ConfirmRegistration = () => {
         setConfirmationMessage(response.data.message);
         setUsername(response.data.username); // Set the username in the state
       } catch (error) {
+        console.log('token', token);
         setConfirmationMessage('Failed to confirm registration. Please try again.');
       }
     };
