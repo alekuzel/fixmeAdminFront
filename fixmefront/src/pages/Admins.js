@@ -47,12 +47,12 @@ const Admin = () => {
               {admins.map((admin, index) => (
                 <div key={admin.id} className="col-md-4 mb-4">
                   <div className="card">
-                    <img 
-                      src={admin.image || '/images/default-avatar.png'}
-                      className="card-img-top img-fluid rounded-circle mx-auto mt-3"
-                      alt="Admin"
-                      style={{ width: '100px', height: '100px' }}
-                    />
+                  <img 
+  src={admin.image ? `http://localhost:3006/images/${admin.image}` : '/images/default-avatar.png'}
+  className="card-img-top img-fluid rounded-circle mx-auto mt-3"
+  alt="Admin"
+  style={{ width: '100px', height: 'auto' }}
+/>
                     <div className="card-body">
                       {editingAdmin && editingAdmin.id === admin.id ? (
                         <>

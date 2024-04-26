@@ -27,12 +27,11 @@ function ProfilePage() {
   const handleImageChange = (event) => {
     setImage(event.target.files[0]);
   };
-
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append('image', image);  // Match the key expected by the backend
     setUploading(true);
-
+  
     try {
       const response = await axios.post(`http://localhost:3006/admins/${loggedInUserId}/upload`, formData, {
         headers: {
@@ -40,8 +39,15 @@ function ProfilePage() {
         },
       });
       setUploading(false);
-      alert('Image uploaded successfully');
-      setAdminData({...adminData, avatarUrl: response.data.admin.image});  // Update adminData to reflect new image path
+      alert(response.data.message);
+  
+      // Fetch the updated admin data
+      const adminResponse = await axios.get(`http://localhost:3006/admins/${loggedInUserId}`);
+      if (adminResponse.data) {
+        setAdminData(adminResponse.data);  // Update adminData to reflect new image path
+      } else {
+        console.error('Unexpected server response:', adminResponse.data);
+      }
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Failed to upload image');
