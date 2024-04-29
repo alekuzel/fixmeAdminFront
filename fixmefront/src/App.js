@@ -10,6 +10,8 @@ import Admins from './pages/Admins';
 import ProfilePage from './pages/ProfilePage';
 import UsersPage from './pages/Users';
 import SecurityPage from './pages/SecurityPage';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
   <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
   <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
   <Route path="/security" element={<ProtectedRoute><SecurityPage /></ProtectedRoute>} />
+  <Route path="/forgot-password" element={<ForgotPassword />} />
+  <Route path="/reset-password" element={<ResetPassword />} />
 </Routes>
     </Router>
   );

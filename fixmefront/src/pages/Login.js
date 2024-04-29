@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -12,7 +13,13 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3006/admin/login', { username, password });
-      const id = response.data.admin.id;
+      const admin = response.data.admin;
+      console.log(admin); 
+      if (admin.status !== 'active') {
+        setError('Account is not active');
+        return;
+      }
+      const id = admin.id;
       localStorage.setItem('id', id);
       navigate(`/`);
     } catch (error) {
@@ -79,6 +86,8 @@ function Login() {
           <button type="submit" className="btn btn-primary">Login</button>
           {error && <p className="text-danger">{error}</p>}
         </form>
+
+        <Link to="/forgot-password">Forgot Password?</Link>
       </div>
     </>
   );
