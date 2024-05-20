@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavigationComp from '../components/NavigationComp';
 import Header from '../components/Header';
-
+import Footer from '../components/FooterComp';
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
@@ -93,6 +93,7 @@ const UsersPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
