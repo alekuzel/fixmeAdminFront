@@ -121,7 +121,7 @@ const Admin = () => {
                           <p className="card-text"><strong>Role:</strong> {admin.role}</p>
                           <p className="card-text"><strong>Username:</strong> {admin.username}</p>
                           <p className="card-text">
-                            <strong>Status:</strong>
+                            <strong>Status: </strong>
                             <span style={{ color: admin.status === 'active' ? 'green' : (admin.status === 'suspended' ? 'blue' : 'red') }}>
                               {admin.status}
                             </span>
