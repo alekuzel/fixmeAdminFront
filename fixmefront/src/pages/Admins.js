@@ -8,33 +8,46 @@ const Admin = () => {
   const [editingAdmin, setEditingAdmin] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [statusOptions] = useState(['Active', 'Suspended', 'Inactive']);
-  
-  const buttonStyle = {
-    backgroundColor: 'green', 
-    color: 'white', 
-    borderRadius: '10px', 
-    padding: '5px 10px', 
-    border: 'none',
-    cursor: 'pointer', // Add cursor pointer to make it user friendly
-  };
+  const [statusOptions] = useState(['', 'active', 'suspended', 'inactive']);
 
+  const buttonStyle = {
+    backgroundColor: 'green',
+    color: 'white',
+    borderRadius: '10px',
+    padding: '5px 10px',
+    border: 'none',
+    cursor: 'pointer',
+  };
 
   const fetchAdmins = async () => {
     try {
       const response = await axios.get('http://localhost:3006/admins');
-      setAdmins(response.data);
+      const updatedAdmins = response.data.map((admin) => {
+        const formattedDate = admin.lastLogin && admin.lastLogin !== '0000-00-00 00:00:00'
+          ? new Date(admin.lastLogin).toLocaleString()
+          : 'Never';
+        return {
+          ...admin,
+          lastLogin: formattedDate
+        };
+      });
+      setAdmins(updatedAdmins);
     } catch (error) {
       console.error('Error fetching admins:', error);
     }
   };
- 
+  
+  
+  
+
+  
+
   useEffect(() => {
     fetchAdmins();
   }, []);
 
   const handleEditClick = (admin) => {
-    setEditingAdmin({...admin});
+    setEditingAdmin({ ...admin }); // Corrected to set the selected admin
   };
 
   const handleSaveClick = async () => {
@@ -42,7 +55,7 @@ const Admin = () => {
       const formData = new FormData();
       formData.append('image', selectedFile);
       setUploading(true);
-  
+
       try {
         const uploadResponse = await axios.post(`http://localhost:3006/admins/${editingAdmin.id}/upload`, formData, {
           headers: {
@@ -50,12 +63,13 @@ const Admin = () => {
           },
         });
         setUploading(false);
-        alert(uploadResponse.data.message);
-        if (uploadResponse.data.imagePath) { // Assume server returns new image path in response
-          setEditingAdmin({
+        if (uploadResponse.data.imagePath) {
+          const updatedAdmin = {
             ...editingAdmin,
-            image: uploadResponse.data.imagePath // Update editingAdmin with the new image path
-          });
+            image: uploadResponse.data.imagePath
+          };
+          setEditingAdmin(updatedAdmin);
+          alert(uploadResponse.data.message);
         }
       } catch (error) {
         console.error('Error uploading image:', error);
@@ -63,21 +77,24 @@ const Admin = () => {
         setUploading(false);
       }
     }
-  
+
     if (editingAdmin) {
       try {
         await axios.put(`http://localhost:3006/admins/${editingAdmin.id}`, editingAdmin);
         setEditingAdmin(null);
-        fetchAdmins(); // Re-fetch the data after saving
+        fetchAdmins();
       } catch (error) {
         console.error('Error saving admin:', error);
       }
     }
   };
-  
 
   const handleImageChange = (file) => {
     setSelectedFile(file);
+  };
+
+  const handleInputChange = (e, key) => {
+    setEditingAdmin({ ...editingAdmin, [key]: e.target.value });
   };
 
   return (
@@ -88,51 +105,104 @@ const Admin = () => {
           <Header />
           <div className="container mt-4">
             <h2>Admins</h2>
-            <div className="row">
-              {admins.map((admin) => (
-                <div key={admin.id} className="col-md-4 mb-4">
-                  <div className="card">
-                    <img 
-                      src={admin.image ? `http://localhost:3006/images/${admin.image}` : '/images/default-avatar.png'}
-                      className="card-img-top img-fluid rounded-circle mx-auto mt-3"
-                      alt="Admin"
-                      style={{ width: '100px', height: 'auto' }}
-                    />
-                    <div className="card-body">
-                      {editingAdmin && editingAdmin.id === admin.id ? (
-                        <>
-                          <input type="file" onChange={(e) => handleImageChange(e.target.files[0])} />
-                          <input value={editingAdmin.firstName} onChange={(e) => setEditingAdmin({ ...editingAdmin, firstName: e.target.value })} />
-                          <input value={editingAdmin.lastName} onChange={(e) => setEditingAdmin({ ...editingAdmin, lastName: e.target.value })} />
-                          <input value={editingAdmin.email} onChange={(e) => setEditingAdmin({ ...editingAdmin, email: e.target.value })} />
-                          <input value={editingAdmin.role} onChange={(e) => setEditingAdmin({ ...editingAdmin, role: e.target.value })} />
-                          <input value={editingAdmin.username} onChange={(e) => setEditingAdmin({ ...editingAdmin, username: e.target.value })} />
-                          <select value={editingAdmin.status} onChange={(e) => setEditingAdmin({ ...editingAdmin, status: e.target.value })}>
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Username</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Last Login</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {admins.map((admin) => (
+                    <tr key={admin.id}>
+                      <td>
+                        <img
+                          src={admin.image ? `http://localhost:3006/images/${admin.image}` : '/images/default-avatar.png'}
+                          className="img-fluid rounded-circle"
+                          alt="Admin"
+                          style={{ width: '50px', height: 'auto' }}
+                        />
+                      </td>
+                   <td>
+  {editingAdmin && editingAdmin.id === admin.id ? (
+    <>
+      <input 
+        value={editingAdmin.firstName} 
+        onChange={(e) => handleInputChange(e, 'firstName')} 
+      />
+      <input 
+        value={editingAdmin.lastName} 
+        onChange={(e) => handleInputChange(e, 'lastName')} 
+      />
+    </>
+  ) : (
+    `${admin.firstName} ${admin.lastName}`
+  )}
+</td>
+
+
+                      <td>
+                        {editingAdmin && editingAdmin.id === admin.id ? (
+                          <input value={editingAdmin.email} onChange={(e) => handleInputChange(e, 'email')} />
+                        ) : (
+                          admin.email
+                        )}
+                      </td>
+                      <td>
+  {editingAdmin && editingAdmin.id === admin.id ? (
+    <select value={editingAdmin.role} onChange={(e) => handleInputChange(e, 'role')}>
+      <option value="admin">Admin</option>
+      <option value="support">Support</option>
+    </select>
+  ) : (
+    admin.role
+  )}
+</td>
+                      <td>
+                        {editingAdmin && editingAdmin.id === admin.id ? (
+                          admin.username // Username field is not editable
+                        ) : (
+                          admin.username
+                        )}
+                      </td>
+                      <td>
+                        {editingAdmin && editingAdmin.id === admin.id ? (
+                          <input value={editingAdmin.phoneNumber} onChange={(e) => handleInputChange(e, 'phoneNumber')} />
+                        ) : (
+                          admin.phoneNumber
+                        )}
+                      </td>
+                      <td style={{ color: admin.status === 'active' ? 'green' : (admin.status === 'suspended' ? 'blue' : 'red') }}>
+                        {editingAdmin && editingAdmin.id === admin.id ? (
+                          <select value={editingAdmin.status} onChange={(e) => handleInputChange(e, 'status')}>
                             {statusOptions.map((option) => (
                               <option key={option} value={option}>{option}</option>
                             ))}
                           </select>
-                          <button style={buttonStyle} onClick={handleSaveClick} disabled={uploading}>{uploading ? 'Saving...' : 'Save'}</button>
-                        </>
-                      ) : (
-                        <>
-                          <h5 className="card-title">{`${admin.firstName} ${admin.lastName}`}</h5>
-                          <p className="card-text">{admin.email}</p>
-                          <p className="card-text"><strong>Role:</strong> {admin.role}</p>
-                          <p className="card-text"><strong>Username:</strong> {admin.username}</p>
-                          <p className="card-text">
-                            <strong>Status: </strong>
-                            <span style={{ color: admin.status === 'active' ? 'green' : (admin.status === 'suspended' ? 'blue' : 'red') }}>
-                              {admin.status}
-                            </span>
-                          </p>
-                          <button style={buttonStyle} onClick={() => handleEditClick(admin)}>Edit</button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
+                        ) : (
+                          admin.status
+                        )}
+                      </td>
+                      <td>{admin.lastLogin}</td>
+                      <td>
+                        {editingAdmin && editingAdmin.id === admin.id ? (
+                          <button className="btn btn-success" onClick={handleSaveClick}>Save</button>
+                        ) : (
+                          <button className="btn btn-primary" onClick={() => handleEditClick(admin)}>Edit</button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
