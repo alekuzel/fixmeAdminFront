@@ -35,7 +35,7 @@ const SecurityPage = () => {
     <div className="container-fluid">
       <div className="row">
         <NavigationComp />
-        <div className="col-lg-10">
+        <div className="col-lg-10" style={{ paddingLeft: '320px' }}>
           <Header />
           <div className="container mt-4">
             <h2>Security Page</h2>

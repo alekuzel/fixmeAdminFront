@@ -34,7 +34,8 @@ function Dashboard() {
         <NavigationComp />
         <div className="col-lg-10">
           <Header />
-          <div className="container mt-4">
+          <main>
+          
             <h2>Welcome to the dashboard</h2>
             <p>Manage your admin tasks here.</p>
             <h2>Currently there are:</h2>
@@ -59,7 +60,7 @@ function Dashboard() {
               </div>
             </div>
             <Link to="/register" className="mt-4">Register New Admin</Link>
-          </div>
+          </main>
         </div>
       </div>
     </div>
@@ -67,10 +68,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-//status in different colors, make admin, support data editable. 
-//fix image uploads!
-//fix differences in what admin, support and superadmin may see
-//news table, CRUD and page just for fun. admins may post, supports only read
-//functionality to change password
-//filter by status and by something else

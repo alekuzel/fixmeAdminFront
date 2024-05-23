@@ -19,9 +19,11 @@ function NavigationComp() {
     border: 'none'
   };
 
+  
+
   const containerStyle = {
     zIndex: 3,
-    position: 'relative' // Required for z-index to take effect
+    position: 'fixed'// Required for z-index to take effect
   };
 
   return (

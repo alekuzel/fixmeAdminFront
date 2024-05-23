@@ -8,16 +8,16 @@ const Header = () => {
   // Define inline style for the header with z-index
   const headerStyle = {
     zIndex: 1,
-    width: '104%', // Full width
+    width: '137%', // Full width
     position: 'relative', // Required for z-index to take effect
     backgroundColor:'purple', // Maintain the dark background
     color: 'white',
-    marginLeft: '-1.3rem',
+    marginLeft: '-5rem',
     padding: '1.5rem 0' // Same as py-3 in Bootstrap
   };
 
   const linksStyle = {
-    marginLeft: '-1.3rem' // Compensate for the negative margin on the header
+    marginLeft: '-6rem', // Compensate for the negative margin on the header
     
   };
 
@@ -29,8 +29,8 @@ const Header = () => {
           {loggedIn && (
             <div className="col d-flex justify-content-center justify-content-md-end" style={linksStyle}>
               <Link to="/news" className={`text-white text-decoration-none mx-1 ${location.pathname === '/news' ? 'active' : ''}`}>News</Link>
-              <Link to="/stats" className={`text-white text-decoration-none mx-1 ${location.pathname === '/stats' ? 'active' : ''}`}>Stats</Link>
-              <Link to="/activities" className={`text-white text-decoration-none mx-1 ${location.pathname === '/activities' ? 'active' : ''}`}>Activities</Link>
+              <Link to="/stats" className={`text-white text-decoration-none mx-1 ${location.pathname === '/stats' ? 'active' : ''}`}> Stats </Link>
+              <Link to="/activities" className={`text-white text-decoration-none mx-1 ${location.pathname === '/activities' ? 'active' : ''}`}> Activities </Link>
             </div>
           )}
         </div>
