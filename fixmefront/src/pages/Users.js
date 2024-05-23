@@ -7,7 +7,11 @@ import Footer from '../components/FooterComp';
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [statusOptions] = useState(['', 'active', 'suspended', 'inactive']);
+
+
 
   const fetchUsers = async () => {
     try {
@@ -31,7 +35,7 @@ const UsersPage = () => {
       if (editingUser.image) {
         const formData = new FormData();
         formData.append('image', editingUser.image);
-        await axios.post(`http://localhost:3006/users/${editingUser.id}/upload-image`, formData, {
+        await axios.post(`http://localhost:3006/users/${editingUser.id}/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -82,6 +86,7 @@ const UsersPage = () => {
                     <th>Username</th>
                     <th>Phone Number</th>
                     <th>Status</th>
+                    <th>Language</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -89,16 +94,13 @@ const UsersPage = () => {
                   {users.map((user) => (
                     <tr key={user.id}>
                       <td>
-                        {editingUser && editingUser.id === user.id ? (
-                          <input type="file" onChange={handleImageChange} />
-                        ) : (
-                          <img
-                            src={user.image ? `http://localhost:3006/users/images/${user.id}` : '/images/default-avatar.png'}
-                            alt="User"
-                            className="img-fluid rounded-circle"
-                            style={{ width: '50px', height: 'auto' }}
-                          />
-                        )}
+                        <img
+                          src={user.image ? `http://localhost:3006/images/${user.image}` : '/images/default-avatar.png'}
+                          
+                          className="img-fluid rounded-circle"
+                          alt="User"
+                          style={{ width: '50px', height: 'auto' }}
+                        />
                       </td>
                       <td>
                         {editingUser && editingUser.id === user.id ? (
@@ -136,6 +138,13 @@ const UsersPage = () => {
                           </select>
                         ) : (
                           user.status
+                        )}
+                      </td>
+                      <td>
+                        {editingUser && editingUser.id === user.id ? (
+                          <input value={editingUser.language} onChange={(e) => handleInputChange(e, 'language')} />
+                        ) : (
+                          user.language
                         )}
                       </td>
                       <td>

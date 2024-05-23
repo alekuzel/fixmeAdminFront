@@ -6,19 +6,29 @@ import Header from '../components/Header';
 const SupportPage = () => {
   const [supportAdmins, setSupportAdmins] = useState([]);
   const [editingSupport, setEditingSupport] = useState(null);
-
-  const fetchSupportAdmins = async () => {
-    try {
-      const response = await axios.get('http://localhost:3006/admins/support');
-      setSupportAdmins(response.data);
-    } catch (error) {
-      console.error('Error fetching support users:', error);
-    }
-  };
+  const [statusOptions] = useState(['', 'active', 'suspended', 'inactive']);
 
   useEffect(() => {
     fetchSupportAdmins();
   }, []);
+
+  const fetchSupportAdmins = async () => {
+    try {
+      const response = await axios.get('http://localhost:3006/admins/support');
+      const updatedSupportAdmins = response.data.map((admin) => {
+        const formattedDate = admin.lastLogin && admin.lastLogin !== '0000-00-00 00:00:00'
+          ? new Date(admin.lastLogin).toLocaleString()
+          : 'Never';
+        return {
+          ...admin,
+          lastLogin: formattedDate
+        };
+      });
+      setSupportAdmins(updatedSupportAdmins);
+    } catch (error) {
+      console.error('Error fetching support admins:', error);
+    }
+  };
 
   const handleEditClick = (admin) => {
     setEditingSupport(admin);
@@ -39,8 +49,12 @@ const SupportPage = () => {
       await axios.delete(`http://localhost:3006/admins/${id}`);
       fetchSupportAdmins(); // re-fetch the data after deleting
     } catch (error) {
-      console.error('Error deleting support user:', error);
+      console.error('Error deleting support admin:', error);
     }
+  };
+
+  const handleInputChange = (e, key) => {
+    setEditingSupport({ ...editingSupport, [key]: e.target.value });
   };
 
   return (
@@ -51,50 +65,96 @@ const SupportPage = () => {
           <Header />
           <div className="container mt-4">
             <h2>Support Admins</h2>
-            <div className="row">
-              {supportAdmins.map((admins, index) => (
-                <div className="col-md-4" key={admins.id}>
-                  <div className="card mb-4">
-                    <img
-                      src={admins.image || '/images/default-avatar.png'}
-                      alt="Support User"
-                      className="card-img-top img-fluid rounded-circle"
-                      style={{ maxWidth: '50px', margin: '0 auto' }}
-                    />
-                    <div className="card-body">
-                      {editingSupport && editingSupport.id === admins.id ? (
-                        <form style={{ borderRadius: '10px', backgroundColor: '#f0f0f0', padding: '10px', marginBottom: '10px' }}>
-                          <input value={editingSupport.firstName} onChange={(e) => setEditingSupport({ ...editingSupport, firstName: e.target.value })} />
-                          <input value={editingSupport.lastName} onChange={(e) => setEditingSupport({ ...editingSupport, lastName: e.target.value })} />
-                          <input value={editingSupport.email} onChange={(e) => setEditingSupport({ ...editingSupport, email: e.target.value })} />
-                          <input value={editingSupport.phoneNumber} onChange={(e) => setEditingSupport({ ...editingSupport, phoneNumber: e.target.value })} />
-                          <input value={editingSupport.role} onChange={(e) => setEditingSupport({ ...editingSupport, role: e.target.value })} />
-                          <input value={editingSupport.status} onChange={(e) => setEditingSupport({ ...editingSupport, status: e.target.value })} />
-                          <input value={editingSupport.username} onChange={(e) => setEditingSupport({ ...editingSupport, username: e.target.value })} />
-                        </form>
-                      ) : (
-                        <>
-                          <h5 className="card-title">{admins.firstName} {admins.lastName}</h5>
-                          <p className="card-text">{admins.email}</p>
-                          <p className="card-text">{admins.phoneNumber}</p>
-                          <p className="card-text">{admins.role}</p>
-                          <p className="card-text">{admins.status}</p>
-                          <p className="card-text">{admins.username}</p>
-                        </>
-                      )}
-                      {editingSupport && editingSupport.id === admins.id && (
-                        <div>
-                          <button style={{ backgroundColor: '#4CAF50', color: 'white', borderRadius: '10px', padding: '5px 10px', marginRight: '5px', border: 'none' }} onClick={handleSaveClick}>Save</button>
-                          <button style={{ backgroundColor: '#f44336', color: 'white', borderRadius: '10px', padding: '5px 10px', border: 'none' }} onClick={() => handleDeleteClick(admins.id)}>Delete</button>
-                        </div>
-                      )}
-                      {!editingSupport && (
-                        <button style={{ backgroundColor: '#4CAF50', color: 'white', borderRadius: '10px', padding: '5px 10px', border: 'none', boxShadow: 'none' }} onClick={() => handleEditClick(admins)}>Edit</button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Username</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Last Login</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {supportAdmins.map((admin) => (
+                    <tr key={admin.id}>
+                      <td>
+                        <img
+                           src={admin.image ? `http://localhost:3006/images/${admin.image}` : '/images/default-avatar.png'}
+                          alt="Support Admin"
+                          className="img-fluid rounded-circle"
+                          style={{ maxWidth: '50px', margin: '0 auto' }}
+                        />
+                      </td>
+                      <td>
+                        {editingSupport && editingSupport.id === admin.id ? (
+                          <>
+                            <input value={editingSupport.firstName} onChange={(e) => handleInputChange(e, 'firstName')} />
+                            <input value={editingSupport.lastName} onChange={(e) => handleInputChange(e, 'lastName')} />
+                          </>
+                        ) : (
+                          `${admin.firstName} ${admin.lastName}`
+                        )}
+                      </td>
+                      <td>
+                        {editingSupport && editingSupport.id === admin.id ? (
+                          <input value={editingSupport.email} onChange={(e) => handleInputChange(e, 'email')} />
+                        ) : (
+                          admin.email
+                        )}
+                      </td>
+                      <td>
+                        {editingSupport && editingSupport.id === admin.id ? (
+                          <select value={editingSupport.role} onChange={(e) => handleInputChange(e, 'role')}>
+                            <option value="admin">Admin</option>
+                            <option value="support">Support</option>
+                          </select>
+                        ) : (
+                          admin.role
+                        )}
+                      </td>
+                      <td>
+                        {editingSupport && editingSupport.id === admin.id ? (
+                          admin.username // Username field is not editable
+                        ) : (
+                          admin.username
+                        )}
+                      </td>
+                      <td>
+                        {editingSupport && editingSupport.id === admin.id ? (
+                          <input value={editingSupport.phoneNumber} onChange={(e) => handleInputChange(e, 'phoneNumber')} />
+                        ) : (
+                          admin.phoneNumber
+                        )}
+                      </td>
+                      <td>
+                        {editingSupport && editingSupport.id === admin.id ? (
+                          <select value={editingSupport.status} onChange={(e) => handleInputChange(e, 'status')}>
+                            {statusOptions.map((option) => (
+                              <option key={option} value={option}>{option}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          admin.status
+                        )}
+                      </td>
+                      <td>{admin.lastLogin}</td>
+                      <td>
+                        {editingSupport && editingSupport.id === admin.id ? (
+                          <button className="btn btn-success" onClick={handleSaveClick}>Save</button>
+                        ) : (
+                          <button className="btn btn-primary" onClick={() => handleEditClick(admin)}>Edit</button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
