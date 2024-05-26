@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavigationComp from '../components/NavigationComp';
 import Header from '../components/Header';
+import '../components/style.css';
 
 const SecurityPage = () => {
   const [loginAttempts, setLoginAttempts] = useState([]);
@@ -35,8 +36,9 @@ const SecurityPage = () => {
     <div className="container-fluid">
       <div className="row">
         <NavigationComp />
-        <div className="col-lg-10" style={{ paddingLeft: '320px' }}>
+        <div className="col-lg-10" style={{ paddingLeft: '300px' }}>
           <Header />
+          
           <div className="container mt-4">
             <h2>Security Page</h2>
             {!isLoading && (

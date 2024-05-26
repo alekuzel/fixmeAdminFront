@@ -66,6 +66,7 @@ const RegistrationForm = () => {
       <NavigationComp /> {/* This should have a class like col-lg-2 if it's defined in NavigationComp */}
       <div className="col-lg-10"> {/* This wraps Header and main content */}
         <Header />
+        <main>
         <div className="container mt-4">
             <h2>Admin Registration</h2>
             <form onSubmit={handleSubmit}>
@@ -118,6 +119,7 @@ const RegistrationForm = () => {
         {error && <p className="text-danger">{error}</p>}
             </form>
           </div>
+          </main>
         </div>
       </div>
     </div>

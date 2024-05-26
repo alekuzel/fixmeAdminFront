@@ -32,10 +32,10 @@ function Dashboard() {
     <div className="container-fluid">
       <div className="row">
         <NavigationComp />
-        <div className="col-lg-10">
+        <div className="col-lg-10" style={{ paddingLeft: '300px' }}>
           <Header />
-          <main>
-          
+        
+          <div className="dashboard-content">
             <h2>Welcome to the dashboard</h2>
             <p>Manage your admin tasks here.</p>
             <h2>Currently there are:</h2>
@@ -59,8 +59,42 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <Link to="/register" className="mt-4">Register New Admin</Link>
-          </main>
+           
+            <div className="new-content">
+              <div className="row mt-4">
+                <div className="col-md-4">
+                  <div className="card">
+                    <img src="images/picone.png" className="card-img-top" alt="News 1" />
+                    <div className="card-body">
+                      <h5 className="card-title">News Title 1</h5>
+                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      <Link to="/news-1" className="btn btn-primary">Read More</Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="card">
+                    <img src="images/picthree.png" className="card-img-top" alt="News 2" />
+                    <div className="card-body">
+                      <h5 className="card-title">News Title 2</h5>
+                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                      <Link to="/news-2" className="btn btn-primary">Read More</Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="card">
+                    <img src="images/pictwo.png" className="card-img-top" alt="News 3" />
+                    <div className="card-body">
+                      <h5 className="card-title">News Title 3</h5>
+                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      <Link to="/news-3" className="btn btn-primary">Read More</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

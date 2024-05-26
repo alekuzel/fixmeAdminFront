@@ -8,16 +8,9 @@ const Admin = () => {
   const [editingAdmin, setEditingAdmin] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [adminStatusFilter, setAdminStatusFilter] = useState('');
+  const [userStatusFilter, setUserStatusFilter] = useState('');
   const [statusOptions] = useState(['', 'active', 'suspended', 'inactive']);
-
-  const buttonStyle = {
-    backgroundColor: 'green',
-    color: 'white',
-    borderRadius: '10px',
-    padding: '5px 10px',
-    border: 'none',
-    cursor: 'pointer',
-  };
 
   const fetchAdmins = async () => {
     try {
@@ -36,11 +29,6 @@ const Admin = () => {
       console.error('Error fetching admins:', error);
     }
   };
-  
-  
-  
-
-  
 
   useEffect(() => {
     fetchAdmins();
@@ -51,33 +39,6 @@ const Admin = () => {
   };
 
   const handleSaveClick = async () => {
-    if (selectedFile && editingAdmin) {
-      const formData = new FormData();
-      formData.append('image', selectedFile);
-      setUploading(true);
-
-      try {
-        const uploadResponse = await axios.post(`http://localhost:3006/admins/${editingAdmin.id}/upload`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        setUploading(false);
-        if (uploadResponse.data.imagePath) {
-          const updatedAdmin = {
-            ...editingAdmin,
-            image: uploadResponse.data.imagePath
-          };
-          setEditingAdmin(updatedAdmin);
-          alert(uploadResponse.data.message);
-        }
-      } catch (error) {
-        console.error('Error uploading image:', error);
-        alert('Failed to upload image');
-        setUploading(false);
-      }
-    }
-
     if (editingAdmin) {
       try {
         await axios.put(`http://localhost:3006/admins/${editingAdmin.id}`, editingAdmin);
@@ -89,22 +50,32 @@ const Admin = () => {
     }
   };
 
-  const handleImageChange = (file) => {
-    setSelectedFile(file);
-  };
-
   const handleInputChange = (e, key) => {
     setEditingAdmin({ ...editingAdmin, [key]: e.target.value });
   };
+
+  const handleAdminStatusFilterChange = (e) => {
+    setAdminStatusFilter(e.target.value);
+  };
+
+  const filteredAdmins = adminStatusFilter ? admins.filter(admin => admin.status === adminStatusFilter) : admins;
 
   return (
     <div className="container-fluid">
       <div className="row">
         <NavigationComp />
-        <div className="col-lg-10">
+        <div className="col-lg-10" style={{ paddingLeft: '300px' }}>
           <Header />
           <div className="container mt-4">
             <h2>Admins</h2>
+            <div>
+              <label>Admin Status:</label>
+              <select value={adminStatusFilter} onChange={handleAdminStatusFilterChange}>
+                {statusOptions.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
+            </div>
             <div className="table-responsive">
               <table className="table table-striped">
                 <thead>
@@ -121,7 +92,7 @@ const Admin = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {admins.map((admin) => (
+                  {filteredAdmins.map((admin) => (
                     <tr key={admin.id}>
                       <td>
                         <img
@@ -131,24 +102,22 @@ const Admin = () => {
                           style={{ width: '50px', height: 'auto' }}
                         />
                       </td>
-                   <td>
-  {editingAdmin && editingAdmin.id === admin.id ? (
-    <>
-      <input 
-        value={editingAdmin.firstName} 
-        onChange={(e) => handleInputChange(e, 'firstName')} 
-      />
-      <input 
-        value={editingAdmin.lastName} 
-        onChange={(e) => handleInputChange(e, 'lastName')} 
-      />
-    </>
-  ) : (
-    `${admin.firstName} ${admin.lastName}`
-  )}
-</td>
-
-
+                      <td>
+                        {editingAdmin && editingAdmin.id === admin.id ? (
+                          <>
+                            <input 
+                              value={editingAdmin.firstName} 
+                              onChange={(e) => handleInputChange(e, 'firstName')} 
+                            />
+                            <input 
+                              value={editingAdmin.lastName} 
+                              onChange={(e) => handleInputChange(e, 'lastName')} 
+                            />
+                          </>
+                        ) : (
+                          `${admin.firstName} ${admin.lastName}`
+                        )}
+                      </td>
                       <td>
                         {editingAdmin && editingAdmin.id === admin.id ? (
                           <input value={editingAdmin.email} onChange={(e) => handleInputChange(e, 'email')} />
@@ -157,15 +126,15 @@ const Admin = () => {
                         )}
                       </td>
                       <td>
-  {editingAdmin && editingAdmin.id === admin.id ? (
-    <select value={editingAdmin.role} onChange={(e) => handleInputChange(e, 'role')}>
-      <option value="admin">Admin</option>
-      <option value="support">Support</option>
-    </select>
-  ) : (
-    admin.role
-  )}
-</td>
+                        {editingAdmin && editingAdmin.id === admin.id ? (
+                          <select value={editingAdmin.role} onChange={(e) => handleInputChange(e, 'role')}>
+                            <option value="admin">Admin</option>
+                            <option value="support">Support</option>
+                          </select>
+                        ) : (
+                          admin.role
+                        )}
+                      </td>
                       <td>
                         {editingAdmin && editingAdmin.id === admin.id ? (
                           admin.username // Username field is not editable

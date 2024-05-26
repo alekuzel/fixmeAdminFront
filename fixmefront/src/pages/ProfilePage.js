@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavigationComp from '../components/NavigationComp';
 import Header from '../components/Header';
+import styled from 'styled-components';
+
+// Styled component for the profile details frame
+const ProfileDetailsFrame = styled.div`
+  border: 2px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+`;
 
 function ProfilePage() {
   const [adminData, setAdminData] = useState(null);
@@ -109,65 +118,66 @@ function ProfilePage() {
     <div className="container-fluid">
       <div className="row">
         <NavigationComp />
-        <div className="col-lg-10">
+        <div className="col-lg-10" style={{ paddingLeft: '300px' }}>
           <Header />
           <div className="container mt-4">
             <h2>Profile Page</h2>
             {adminData ? (
               <div className="profile-content">
-                <p>ID: {adminData.id}</p>
-                {editing ? (
-                  <div className="edit-form">
-                    <div className="form-group">
-                      <label htmlFor="firstName">First Name:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="firstName"
-                        value={editedData.firstName}
-                        onChange={handleInputChange}
-                      />
+                <ProfileDetailsFrame> {/* Use the styled component here */}
+                  {editing ? (
+                    <div className="edit-form">
+                      <div className="form-group">
+                        <label htmlFor="firstName">First Name:</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="firstName"
+                          value={editedData.firstName}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="lastName">Last Name:</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="lastName"
+                          value={editedData.lastName}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="phoneNumber">Phone Number:</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="phoneNumber"
+                          value={editedData.phoneNumber}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <button className="btn btn-success mr-2" onClick={handleSave}>Save</button>
+                      <button className="btn btn-danger" onClick={handleCancel}>Cancel</button>
                     </div>
-                    <div className="form-group">
-                      <label htmlFor="lastName">Last Name:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="lastName"
-                        value={editedData.lastName}
-                        onChange={handleInputChange}
-                      />
+                  ) : (
+                    <div className="profile-details">
+                      <p>Name: {adminData.firstName} {adminData.lastName}</p>
+                      <p>Email: {adminData.email}</p>
+                      <p>Phone: {adminData.phoneNumber}</p>
+                      <p>Username: {adminData.username}</p>
+                      <p>Role: {adminData.role}</p>
+                      <div>
+                        <img src={adminData.avatarUrl || '/images/default-avatar.png'} alt="Avatar" className="avatar" />
+                        <input type="file" onChange={handleImageChange} />
+                        <button className="btn btn-primary" onClick={handleUpload} disabled={uploading}>
+                          {uploading ? 'Uploading...' : 'Upload'}
+                        </button>
+                      </div>
+                      <button className="btn btn-success" onClick={handleEdit}>Edit</button>
                     </div>
-                    <div className="form-group">
-                      <label htmlFor="phoneNumber">Phone Number:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="phoneNumber"
-                        value={editedData.phoneNumber}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <button className="btn btn-success mr-2" onClick={handleSave}>Save</button>
-                    <button className="btn btn-danger" onClick={handleCancel}>Cancel</button>
-                  </div>
-                ) : (
-                  <div className="profile-details">
-                    <p>Name: {adminData.firstName} {adminData.lastName}</p>
-                    <p>Email: {adminData.email}</p>
-                    <p>Phone: {adminData.phoneNumber}</p>
-                    <p>Username: {adminData.username}</p>
-                    <p>Role: {adminData.role}</p>
-                    <div>
-                      <img src={adminData.avatarUrl || '/images/default-avatar.png'} alt="Avatar" className="avatar" />
-                      <input type="file" onChange={handleImageChange} />
-                      <button className="btn btn-primary" onClick={handleUpload} disabled={uploading}>
-                        {uploading ? 'Uploading...' : 'Upload'}
-                      </button>
-                    </div>
-                    <button className="btn btn-success" onClick={handleEdit}>Edit</button>
-                  </div>
-                )}
+                  )}
+                </ProfileDetailsFrame>
               </div>
             ) : (
               <p>Loading...</p>

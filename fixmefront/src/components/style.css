@@ -7,16 +7,11 @@
   main{
 
     margin-top: 50px;
-    margin-left: 320px;
+    padding-left: 320px;
+    width: 100%;
   }
 
-  
-  .nav-container {
-    width: 300px; /* Fixed width for the navigation */
-    height: 100%; /* Full height */
-    background-color: #333; /* Background color for visibility */
-  }
-  
+
   .header-container {
     
     width: 100%; /* Take remaining width */

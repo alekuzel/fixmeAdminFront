@@ -7,11 +7,8 @@ import Footer from '../components/FooterComp';
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('');
   const [statusOptions] = useState(['', 'active', 'suspended', 'inactive']);
-
-
 
   const fetchUsers = async () => {
     try {
@@ -32,16 +29,6 @@ const UsersPage = () => {
 
   const handleSaveClick = async () => {
     try {
-      if (editingUser.image) {
-        const formData = new FormData();
-        formData.append('image', editingUser.image);
-        await axios.post(`http://localhost:3006/users/${editingUser.id}/upload`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-      }
-
       await axios.put(`http://localhost:3006/users/${editingUser.id}`, editingUser);
       setEditingUser(null);
       fetchUsers(); // re-fetch the data after saving
@@ -63,19 +50,29 @@ const UsersPage = () => {
     setEditingUser({ ...editingUser, [key]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setEditingUser({ ...editingUser, image: file });
+  const handleStatusFilterChange = (e) => {
+    setStatusFilter(e.target.value);
   };
+
+  // Apply filter only if a status filter is selected
+  const filteredUsers = statusFilter ? users.filter(user => user.status === statusFilter) : users;
 
   return (
     <div className="container-fluid">
       <div className="row">
         <NavigationComp />
-        <div className="col-lg-10">
+        <div className="col-lg-10" style={{ paddingLeft: '300px' }}>
           <Header />
           <div className="container mt-4">
             <h2>Users</h2>
+            <div>
+              <label>Status:</label>
+              <select value={statusFilter} onChange={handleStatusFilterChange}>
+                {statusOptions.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
+            </div>
             <div className="table-responsive">
               <table className="table table-striped">
                 <thead>
@@ -91,12 +88,11 @@ const UsersPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
+                  {filteredUsers.map((user) => (
                     <tr key={user.id}>
                       <td>
                         <img
                           src={user.image ? `http://localhost:3006/images/${user.image}` : '/images/default-avatar.png'}
-                          
                           className="img-fluid rounded-circle"
                           alt="User"
                           style={{ width: '50px', height: 'auto' }}
@@ -119,9 +115,7 @@ const UsersPage = () => {
                           user.email
                         )}
                       </td>
-                      <td>
-                        {user.username}
-                      </td>
+                      <td>{user.username}</td>
                       <td>
                         {editingUser && editingUser.id === user.id ? (
                           <input value={editingUser.phoneNumber} onChange={(e) => handleInputChange(e, 'phoneNumber')} />
@@ -129,7 +123,7 @@ const UsersPage = () => {
                           user.phoneNumber
                         )}
                       </td>
-                      <td>
+                      <td style={{ color: user.status === 'active' ? 'green' : (user.status === 'suspended' ? 'blue' : 'red') }}>
                         {editingUser && editingUser.id === user.id ? (
                           <select value={editingUser.status} onChange={(e) => handleInputChange(e, 'status')}>
                             {statusOptions.map((option) => (

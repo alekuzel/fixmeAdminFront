@@ -17,7 +17,7 @@ const Header = () => {
   };
 
   const linksStyle = {
-    marginLeft: '-6rem', // Compensate for the negative margin on the header
+    marginLeft: '-10rem', // Compensate for the negative margin on the header
     
   };
 
