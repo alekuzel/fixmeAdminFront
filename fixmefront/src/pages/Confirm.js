@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation instead of useParams
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const ConfirmRegistration = () => {
   // Replace useParams with useLocation and URLSearchParams
@@ -31,8 +32,8 @@ const ConfirmRegistration = () => {
   return (
     <div className="container">
       <h2>Registration Confirmation</h2>
-      <p>{confirmationMessage}</p>
-      {username && <p>Your username is: {username}</p>} {/* Display the username if it's set */}
+      <p>Your registration was confirmed. </p>
+      <Link to="/login" className="btn btn-primary">Go to Login</Link>
     </div>
   );
 };

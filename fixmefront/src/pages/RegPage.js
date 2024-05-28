@@ -30,6 +30,7 @@ const RegistrationForm = () => {
     try {
       const response = await axios.post('http://localhost:3006/admins/register', formData);
       // Assume the server responds with a success message upon registration
+      navigate('/success');
       setRegistrationCompleted(true); // Set registration completion state to true
     } catch (error) {
       setError('Failed to register. Please try again.');
@@ -51,7 +52,6 @@ const RegistrationForm = () => {
             <div className="container">
               <h2>Registration Successful</h2>
               <p>Please check your email for confirmation.</p>
-              <button onClick={handleConfirmation} className="btn btn-primary">Go to Login</button>
             </div>
           </div>
         </div>

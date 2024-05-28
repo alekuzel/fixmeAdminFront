@@ -69,7 +69,7 @@ const SupportPage = () => {
     <div className="container-fluid">
       <div className="row">
         <NavigationComp />
-        <div className="col-lg-10">
+        <div className="col-lg-10" style={{ paddingLeft: '300px' }}>
           <Header />
           <main>
             <h2>Support Admins</h2>
